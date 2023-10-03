@@ -2039,8 +2039,8 @@ namespace TheOtherRoles
     {
         public static PlayerControl tracer;
 
-        private static readonly Dictionary<byte, ArrowBehaviour> Arrows = new();
-        private static int RoundCount;
+        public static readonly Dictionary<byte, ArrowBehaviour> Arrows = new();
+        public static int RoundCount;
 
         public static bool IsImp(this PlayerControl playerinfo) => playerinfo?.Data?.Role?.TeamType == RoleTeamTypes.Impostor;
 
@@ -2061,6 +2061,9 @@ namespace TheOtherRoles
 
         public static void update()
         {
+            if (tracer != PlayerControl.LocalPlayer)
+                return;
+
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (Arrows.TryGetValue(player.PlayerId, out var arrow))
@@ -2073,7 +2076,10 @@ namespace TheOtherRoles
 
         public static void createArrows()
         {
-            if (PlayerControl.LocalPlayer.IsImp())
+            if (tracer != PlayerControl.LocalPlayer)
+                return;
+
+            if (!PlayerControl.LocalPlayer.IsImp())
             {
                 foreach (var player in PlayerControl.AllPlayerControls) //I'm using the Among Us player list because the CachedPlayer stuff is too much for me to type
                 {
