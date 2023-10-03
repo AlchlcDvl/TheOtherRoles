@@ -95,6 +95,7 @@ namespace TheOtherRoles
         public static RoleInfo invert = new RoleInfo("Invert", Color.yellow, "Your movement is inverted", "Your movement is inverted", RoleId.Invert, false, true);
         public static RoleInfo chameleon = new RoleInfo("Chameleon", Color.yellow, "You're hard to see when not moving", "You're hard to see when not moving", RoleId.Chameleon, false, true);
         public static RoleInfo shifter = new RoleInfo("Shifter", Color.yellow, "Shift your role", "Shift your role", RoleId.Shifter, false, true);
+        public static RoleInfo tracer = new("Tracer", Color.yellow, "You know who the Impostors are", "You know who the Impostors are", RoleId.Tracer, false, true);
 
 
         public static List<RoleInfo> allRoleInfos = new List<RoleInfo>() {
@@ -153,7 +154,8 @@ namespace TheOtherRoles
             vip,
             invert,
             chameleon,
-            shifter
+            shifter,
+            tracer
         };
 
         public static List<RoleInfo> getRoleInfoForPlayer(PlayerControl p, bool showModifier = true) {

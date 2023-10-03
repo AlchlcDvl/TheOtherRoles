@@ -300,6 +300,8 @@ namespace TheOtherRoles {
 
         public static CustomOption modifierShifter;
 
+        public static CustomOption modifierTracer;
+
         public static CustomOption maxNumberOfMeetings;
         public static CustomOption blockSkippingInEmergencyMeetings;
         public static CustomOption noVoteIsSelfVote;
@@ -703,6 +705,8 @@ namespace TheOtherRoles {
             modifierChameleonMinVisibility = CustomOption.Create(1094, Types.Modifier, "Minimum Visibility", new string[] { "0%", "10%", "20%", "30%", "40%", "50%" }, modifierChameleon);
 
             modifierShifter = CustomOption.Create(1100, Types.Modifier, cs(Color.yellow, "Shifter"), rates, null, true);
+
+            modifierTracer = CustomOption.Create(1101, Types.Modifier, cs(Color.yellow, "Tracer"), rates, null, true);
 
             // Guesser Gamemode (2000 - 2999)
             guesserGamemodeCrewNumber = CustomOption.Create(2001, Types.Guesser, cs(Guesser.color, "Number of Crew Guessers"), 15f, 1f, 15f, 1f, null, true);

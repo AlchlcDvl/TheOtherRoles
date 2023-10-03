@@ -72,6 +72,7 @@ namespace TheOtherRoles
             Vip.clearAndReload();
             Invert.clearAndReload();
             Chameleon.clearAndReload();
+            Tracer.clearAndReload();
 
             // Gamemodes
             HandleGuesser.clearAndReload();
@@ -2031,6 +2032,55 @@ namespace TheOtherRoles
             shifter = null;
             currentTarget = null;
             futureShift = null;
+        }
+    }
+
+    public static class Tracer
+    {
+        public static PlayerControl tracer;
+
+        private static readonly Dictionary<byte, ArrowBehaviour> Arrows = new();
+        private static int RoundCount;
+
+        public static bool IsImp(this PlayerControl playerinfo) => playerinfo?.Data?.Role?.TeamType == RoleTeamTypes.Impostor;
+
+        public static ArrowBehaviour CreateArrow(PlayerControl player)
+        {
+            var arrowObj = new GameObject($"{player}Arrow") { layer = 5 };
+            arrowObj.transform.SetParent(player.gameObject.transform);
+            var arrow = arrowObj.AddComponent<ArrowBehaviour>();
+            var render = arrowObj.AddComponent<SpriteRenderer>();
+            render.sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.Arrow.png", 200f);
+            render.color = Color.red;
+            arrow.image = render;
+            arrow.target = player.transform.position;
+            return arrow;
+        }
+
+        public static void clearAndReload() => Arrows.Clear();
+
+        public static void update()
+        {
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (Arrows.TryGetValue(player.PlayerId, out var arrow))
+                {
+                    arrow.image.color = RoundCount % 2 == 0 ? Color.blue : Color.red;
+                    arrow.target = player.transform.position;
+                }
+            }
+        }
+
+        public static void createArrows()
+        {
+            if (PlayerControl.LocalPlayer.IsImp())
+            {
+                foreach (var player in PlayerControl.AllPlayerControls) //I'm using the Among Us player list because the CachedPlayer stuff is too much for me to type
+                {
+                    if (player != PlayerControl.LocalPlayer && player.IsImp())
+                        Arrows.TryAdd(player.PlayerId, CreateArrow(player));
+                }
+            }
         }
     }
 }

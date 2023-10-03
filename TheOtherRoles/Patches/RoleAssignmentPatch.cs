@@ -435,7 +435,8 @@ namespace TheOtherRoles.Patches {
                 RoleId.Vip,
                 RoleId.Invert,
                 RoleId.Chameleon,
-                RoleId.Shifter
+                RoleId.Shifter,
+                RoleId.Tracer
             });
 
             if (rnd.Next(1, 101) <= CustomOptionHolder.modifierLover.getSelection() * 10) { // Assign lover
@@ -537,7 +538,7 @@ namespace TheOtherRoles.Patches {
             byte playerId = playerList[index].PlayerId;
             playerList.RemoveAt(index);
 
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetModifier, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.SetModifier, SendOption.Reliable, -1);
             writer.Write(modifierId);
             writer.Write(playerId);
             writer.Write(flag);
@@ -565,6 +566,13 @@ namespace TheOtherRoles.Patches {
                 crewPlayer.RemoveAll(x => x.PlayerId == playerId);
                 playerList.RemoveAll(x => x.PlayerId == playerId);
                 modifiers.RemoveAll(x => x == RoleId.Shifter);
+            }
+            if (modifiers.Contains(RoleId.Tracer)) {
+                var crewPlayerShifter = new List<PlayerControl>(crewPlayer);
+                playerId = setModifierToRandomPlayer((byte)RoleId.Tracer, crewPlayerShifter);
+                crewPlayer.RemoveAll(x => x.PlayerId == playerId);
+                playerList.RemoveAll(x => x.PlayerId == playerId);
+                modifiers.RemoveAll(x => x == RoleId.Tracer);
             }
             if (modifiers.Contains(RoleId.Sunglasses)) {
                 int sunglassesCount = 0;
@@ -623,6 +631,8 @@ namespace TheOtherRoles.Patches {
                     break;
                 case RoleId.Shifter:
                     selection = CustomOptionHolder.modifierShifter.getSelection(); break;
+                case RoleId.Tracer:
+                    selection = CustomOptionHolder.modifierTracer.getSelection(); break;
             }
                  
             return selection;

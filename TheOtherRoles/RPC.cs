@@ -76,7 +76,8 @@ namespace TheOtherRoles
         Vip,
         Invert,
         Chameleon,
-        Shifter
+        Shifter,
+        Tracer
     }
 
     enum CustomRPC
@@ -411,6 +412,9 @@ namespace TheOtherRoles
                     break;
                 case RoleId.Shifter:
                     Shifter.shifter = player;
+                    break;
+                case RoleId.Tracer:
+                    Tracer.tracer = player;
                     break;
             }
         }
