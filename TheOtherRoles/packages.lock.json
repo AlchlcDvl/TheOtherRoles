@@ -16,12 +16,12 @@
       },
       "BepInEx.Unity.IL2CPP": {
         "type": "Direct",
-        "requested": "[6.0.0-be.671, )",
-        "resolved": "6.0.0-be.671",
-        "contentHash": "XpmrBitEO7pe5YG9VHqn0nuelEF5Dp0Rpkxa2F7PFZF1a00KSsdCL809++HYnGzLumNOCIt7mO7yyDNP5k25mw==",
+        "requested": "[6.0.0-be.673, )",
+        "resolved": "6.0.0-be.673",
+        "contentHash": "fS4jdVnqSVGYbaUqa6cMzNLdJmc11iicuwbTBFyovYvuwYBwI9NQ/BCj8ThneSKlAMC0PhFwVhNUU8XCivU2pA==",
         "dependencies": {
-          "BepInEx.Core": "6.0.0-be.671",
-          "BepInEx.Unity.Common": "6.0.0-be.671",
+          "BepInEx.Core": "6.0.0-be.673",
+          "BepInEx.Unity.Common": "6.0.0-be.673",
           "HarmonyX": "2.10.1",
           "Iced": "1.18.0",
           "Il2CppInterop.Generator": "1.4.6-ci.367",
@@ -77,8 +77,8 @@
       },
       "BepInEx.Core": {
         "type": "Transitive",
-        "resolved": "6.0.0-be.671",
-        "contentHash": "Hp9QsgwtlGuNULFq5tF8YHrVD5R5WA5nMgFTJbcScWsGJDq7KPEhiLNGvKHAxcmMM8GA0CKM+jn8cJPtlMKvNQ==",
+        "resolved": "6.0.0-be.673",
+        "contentHash": "X5Wg3WisBYQ13+5BJamIKAcw0w2YWYpZLPnWJOvvQTl6grJ/1kLNlYBNTZWs5fW7GVV694spNp62yN+P3zoFJg==",
         "dependencies": {
           "HarmonyX": "2.10.1",
           "MonoMod.Utils": "22.5.1.1",
@@ -87,8 +87,8 @@
       },
       "BepInEx.Unity.Common": {
         "type": "Transitive",
-        "resolved": "6.0.0-be.671",
-        "contentHash": "05W7ERsHizZl0MacTAhiGkcihZl2b0DYBP0e6gA1Vzoay+teQ/mHy3zorGu1r8lLWlesH4LXl89HwFjrMA1ZKw==",
+        "resolved": "6.0.0-be.673",
+        "contentHash": "SsjvLarT0dY0nMSmRPzcnGk9HTtFPfSMcZ587rMB5Zb7jB2OyHXABeE1bAx5ue5N9q5GNjq2MzlUvnRCmanNJA==",
         "dependencies": {
           "AssetRipper.VersionUtilities": "1.2.1",
           "MonoMod.Utils": "22.5.1.1"

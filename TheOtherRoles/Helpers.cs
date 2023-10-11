@@ -71,7 +71,7 @@ namespace TheOtherRoles {
         }
 
         public static Texture2D loadTextureFromDisk(string path) {
-            try {          
+            try {
                 if (File.Exists(path))     {
                     Texture2D texture = new Texture2D(2, 2, TextureFormat.ARGB32, true);
                     var byteTexture = Il2CppSystem.IO.File.ReadAllBytes(path);
@@ -85,7 +85,7 @@ namespace TheOtherRoles {
         }
 
         public static AudioClip loadAudioClipFromResources(string path, string clipName = "UNNAMED_TOR_AUDIO_CLIP") {
-            // must be "raw (headerless) 2-channel signed 32 bit pcm (le)" (can e.g. use Audacity® to export)
+            // must be "raw (headerless) 2-channel signed 32 bit pcm (le)" (can e.g. use Audacityï¿½ to export)
             try {
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 Stream stream = assembly.GetManifestResourceStream(path);
@@ -128,7 +128,7 @@ namespace TheOtherRoles {
                     return player;
             return null;
         }
-        
+
         public static Dictionary<byte, PlayerControl> allPlayersById()
         {
             Dictionary<byte, PlayerControl> res = new Dictionary<byte, PlayerControl>();
@@ -148,25 +148,25 @@ namespace TheOtherRoles {
         }
 
         public static void refreshRoleDescription(PlayerControl player) {
-            List<RoleInfo> infos = RoleInfo.getRoleInfoForPlayer(player); 
-            List<string> taskTexts = new(infos.Count); 
+            List<RoleInfo> infos = RoleInfo.getRoleInfoForPlayer(player);
+            List<string> taskTexts = new(infos.Count);
 
             foreach (var roleInfo in infos)
             {
                 taskTexts.Add(getRoleString(roleInfo));
             }
-            
+
             var toRemove = new List<PlayerTask>();
-            foreach (PlayerTask t in player.myTasks.GetFastEnumerator()) 
+            foreach (PlayerTask t in player.myTasks.GetFastEnumerator())
             {
                 var textTask = t.TryCast<ImportantTextTask>();
                 if (textTask == null) continue;
-                
+
                 var currentText = textTask.Text;
-                
+
                 if (taskTexts.Contains(currentText)) taskTexts.Remove(currentText); // TextTask for this RoleInfo does not have to be added, as it already exists
                 else toRemove.Add(t); // TextTask does not have a corresponding RoleInfo and will hence be deleted
-            }   
+            }
 
             foreach (PlayerTask t in toRemove) {
                 t.OnRemove();
@@ -185,17 +185,17 @@ namespace TheOtherRoles {
 
         internal static string getRoleString(RoleInfo roleInfo)
         {
-            if (roleInfo.name == "Jackal") 
+            if (roleInfo.name == "Jackal")
             {
                 var getSidekickText = Jackal.canCreateSidekick ? " and recruit a Sidekick" : "";
-                return cs(roleInfo.color, $"{roleInfo.name}: Kill everyone{getSidekickText}");  
+                return cs(roleInfo.color, $"{roleInfo.name}: Kill everyone{getSidekickText}");
             }
 
-            if (roleInfo.name == "Invert") 
+            if (roleInfo.name == "Invert")
             {
                 return cs(roleInfo.color, $"{roleInfo.name}: {roleInfo.shortDescription} ({Invert.meetings})");
             }
-            
+
             return cs(roleInfo.color, $"{roleInfo.name}: {roleInfo.shortDescription}");
         }
 
@@ -233,7 +233,7 @@ namespace TheOtherRoles {
                 UnityEngine.Object.Destroy(playerTask.gameObject);
             }
             player.myTasks.Clear();
-            
+
             if (player.Data != null && player.Data.Tasks != null)
                 player.Data.Tasks.Clear();
         }
@@ -307,7 +307,7 @@ namespace TheOtherRoles {
 
             SkinViewData nextSkin = null;
             try { nextSkin = ShipStatus.Instance.CosmeticsCache.GetSkin(skinId); } catch { return; };
-            
+
             PlayerPhysics playerPhysics = target.MyPhysics;
             AnimationClip clip = null;
             var spriteAnim = playerPhysics.myPlayer.cosmetics.skin.animator;
@@ -424,7 +424,7 @@ namespace TheOtherRoles {
 
             // Block Time Master with time shield kill
             else if (TimeMaster.shieldActive && TimeMaster.timeMaster != null && TimeMaster.timeMaster == target) {
-                if (!blockRewind) { // Only rewind the attempt was not called because a meeting startet 
+                if (!blockRewind) { // Only rewind the attempt was not called because a meeting startet
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)CustomRPC.TimeMasterRewindTime, Hazel.SendOption.Reliable, -1);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPCProcedure.timeMasterRewindTime();
@@ -464,9 +464,9 @@ namespace TheOtherRoles {
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.uncheckedMurderPlayer(killer.PlayerId, target.PlayerId, showAnimation ? Byte.MaxValue : (byte)0);
             }
-            return murder;            
+            return murder;
         }
-    
+
         public static void shareGameVersion() {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.VersionHandshake, Hazel.SendOption.Reliable, -1);
             writer.Write((byte)TheOtherRolesPlugin.Version.Major);
@@ -484,10 +484,10 @@ namespace TheOtherRoles {
             List<PlayerControl> team = new List<PlayerControl>();
             foreach(PlayerControl p in CachedPlayer.AllPlayers) {
                 if (player.Data.Role.IsImpostor && p.Data.Role.IsImpostor && player.PlayerId != p.PlayerId && team.All(x => x.PlayerId != p.PlayerId)) team.Add(p);
-                else if (player == Jackal.jackal && p == Sidekick.sidekick) team.Add(p); 
+                else if (player == Jackal.jackal && p == Sidekick.sidekick) team.Add(p);
                 else if (player == Sidekick.sidekick && p == Jackal.jackal) team.Add(p);
             }
-            
+
             return team;
         }
 
@@ -499,12 +499,12 @@ namespace TheOtherRoles {
         }
 
         public static bool isKiller(PlayerControl player) {
-            return player.Data.Role.IsImpostor || 
-                (isNeutral(player) && 
-                player != Jester.jester && 
-                player != Arsonist.arsonist && 
-                player != Vulture.vulture && 
-                player != Lawyer.lawyer && 
+            return player.Data.Role.IsImpostor ||
+                (isNeutral(player) &&
+                player != Jester.jester &&
+                player != Arsonist.arsonist &&
+                player != Vulture.vulture &&
+                player != Lawyer.lawyer &&
                 player != Pursuer.pursuer);
 
         }
@@ -543,14 +543,14 @@ namespace TheOtherRoles {
                         now = response.Headers.Date?.UtcDateTime;
                     else {
                         TheOtherRolesPlugin.Logger.LogMessage($"Could not get time from server: {response.StatusCode}");
-                        now = DateTime.UtcNow; //In case something goes wrong. 
+                        now = DateTime.UtcNow; //In case something goes wrong.
                     }
                 } catch (System.Net.Http.HttpRequestException) {
                     now = DateTime.UtcNow;
                 }
                 if ((now - compileTime)?.TotalDays > TheOtherRolesPlugin.betaDays) {
                     TheOtherRolesPlugin.Logger.LogMessage($"Beta expired!");
-                    BepInExUpdater.MessageBoxTimeout(BepInExUpdater.GetForegroundWindow(), "BETA is expired. You cannot play this version anymore.", "The Other Roles Beta", 0,0, 10000);
+                    WindowMaker.MessageBoxTimeout(WindowMaker.GetForegroundWindow(), "BETA is expired. You cannot play this version anymore.", "The Other Roles Beta", 0,0, 10000);
                     Application.Quit();
 
                 } else TheOtherRolesPlugin.Logger.LogMessage($"Beta will remain runnable for {TheOtherRolesPlugin.betaDays - (now - compileTime)?.TotalDays} days!");
@@ -565,7 +565,7 @@ namespace TheOtherRoles {
                 || (Jester.jester != null && Jester.jester.PlayerId == player.PlayerId && Jester.hasImpostorVision)
                 || (Thief.thief != null && Thief.thief.PlayerId == player.PlayerId && Thief.hasImpostorVision);
         }
-        
+
         public static object TryCast(this Il2CppObjectBase self, Type type)
         {
             return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type).Invoke(self, Array.Empty<object>());

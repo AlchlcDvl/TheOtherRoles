@@ -36,7 +36,7 @@ namespace TheOtherRoles
 
         public static Version Version = Version.Parse(VersionString);
         internal static BepInEx.Logging.ManualLogSource Logger;
-         
+
         public Harmony Harmony { get; } = new Harmony(Id);
         public static TheOtherRolesPlugin Instance;
 
@@ -67,15 +67,15 @@ namespace TheOtherRoles
             var regions = new IRegionInfo[] {
                 new StaticHttpRegionInfo("Custom", StringNames.NoTranslation, Ip.Value, new Il2CppReferenceArray<ServerInfo>(new ServerInfo[1] { new ServerInfo("Custom", Ip.Value, Port.Value, false) })).CastFast<IRegionInfo>()
             };
-            
+
             IRegionInfo currentRegion = serverManager.CurrentRegion;
             Logger.LogInfo($"Adding {regions.Length} regions");
             foreach (IRegionInfo region in regions) {
-                if (region == null) 
+                if (region == null)
                     Logger.LogError("Could not add region");
                 else {
-                    if (currentRegion != null && region.Name.Equals(currentRegion.Name, StringComparison.OrdinalIgnoreCase)) 
-                        currentRegion = region;               
+                    if (currentRegion != null && region.Name.Equals(currentRegion.Name, StringComparison.OrdinalIgnoreCase))
+                        currentRegion = region;
                     serverManager.AddOrUpdateRegion(region);
                 }
             }
@@ -90,7 +90,7 @@ namespace TheOtherRoles
         public override void Load() {
             Logger = Log;
             Instance = this;
-  
+
             _ = Helpers.checkBeta(); // Exit if running an expired beta
             _ = Patches.CredentialsPatch.MOTD.loadMOTDs();
 
@@ -104,7 +104,7 @@ namespace TheOtherRoles
             EnableSoundEffects = Config.Bind("Custom", "Enable Sound Effects", true);
             EnableHorseMode = Config.Bind("Custom", "Enable Horse Mode", false);
             ShowPopUpVersion = Config.Bind("Custom", "Show PopUp", "0");
-            
+
             Ip = Config.Bind("Custom", "Custom Server IP", "127.0.0.1");
             Port = Config.Bind("Custom", "Custom Server Port", (ushort)22023);
             defaultRegions = ServerManager.DefaultRegions;
@@ -113,14 +113,9 @@ namespace TheOtherRoles
 
             DebugMode = Config.Bind("Custom", "Enable Debug Mode", "false");
             Harmony.PatchAll();
-            
+
             CustomOptionHolder.Load();
             CustomColors.Load();
-            if (BepInExUpdater.UpdateRequired)
-            {
-                AddComponent<BepInExUpdater>();
-                return;
-            }
 
             EventUtility.Load();
             SubmergedCompatibility.Initialize();
@@ -152,7 +147,7 @@ namespace TheOtherRoles
             }
         }
     }
-    
+
     // Debugging tools
     [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.Update))]
     public static class DebugManager
@@ -182,7 +177,7 @@ namespace TheOtherRoles
                 bots.Add(playerControl);
                 GameData.Instance.AddPlayer(playerControl);
                 AmongUsClient.Instance.Spawn(playerControl, -2, InnerNet.SpawnFlags.None);
-                
+
                 playerControl.transform.position = CachedPlayer.LocalPlayer.transform.position;
                 playerControl.GetComponent<DummyBehaviour>().enabled = true;
                 playerControl.NetTransform.enabled = false;

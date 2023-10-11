@@ -187,7 +187,7 @@ namespace TheOtherRoles
             EventUtility.clearAndReload();
         }
 
-    public static void HandleShareOptions(byte numberOfOptions, MessageReader reader) {            
+    public static void HandleShareOptions(byte numberOfOptions, MessageReader reader) {
             try {
                 for (int i = 0; i < numberOfOptions; i++) {
                     uint optionId = reader.ReadPackedUInt32();
@@ -206,8 +206,8 @@ namespace TheOtherRoles
             {
                 if (!player.Data.Role.IsImpostor)
                 {
-                    
-                    GameData.Instance.GetPlayerById(player.PlayerId); // player.RemoveInfected(); (was removed in 2022.12.08, no idea if we ever need that part again, replaced by these 2 lines.) 
+
+                    GameData.Instance.GetPlayerById(player.PlayerId); // player.RemoveInfected(); (was removed in 2022.12.08, no idea if we ever need that part again, replaced by these 2 lines.)
                     player.SetRole(RoleTypes.Crewmate);
 
                     player.MurderPlayer(player);
@@ -223,7 +223,7 @@ namespace TheOtherRoles
         public static void workaroundSetRoles(byte numberOfRoles, MessageReader reader)
         {
                 for (int i = 0; i < numberOfRoles; i++)
-                {                   
+                {
                     byte playerId = (byte) reader.ReadPackedUInt32();
                     byte roleId = (byte) reader.ReadPackedUInt32();
                     try {
@@ -232,7 +232,7 @@ namespace TheOtherRoles
                         TheOtherRolesPlugin.Logger.LogError("Error while deserializing roles: " + e.Message);
                     }
             }
-            
+
         }
 
         public static void setRole(byte roleId, byte playerId) {
@@ -377,7 +377,7 @@ namespace TheOtherRoles
         }
 
         public static void setModifier(byte modifierId, byte playerId, byte flag) {
-            PlayerControl player = Helpers.playerById(playerId); 
+            PlayerControl player = Helpers.playerById(playerId);
             switch ((RoleId)modifierId) {
                 case RoleId.Bait:
                     Bait.bait.Add(player);
@@ -421,9 +421,9 @@ namespace TheOtherRoles
 
         public static void versionHandshake(int major, int minor, int build, int revision, Guid guid, int clientId) {
             System.Version ver;
-            if (revision < 0) 
+            if (revision < 0)
                 ver = new System.Version(major, minor, build);
-            else 
+            else
                 ver = new System.Version(major, minor, build, revision);
             GameStartManagerPatch.playerVersions[clientId] = new GameStartManagerPatch.PlayerVersion(ver, guid);
         }
@@ -500,7 +500,7 @@ namespace TheOtherRoles
             for (int i = 0; i < array.Length; i++) {
                 if (GameData.Instance.GetPlayerById(array[i].ParentId).PlayerId == playerId) {
                     UnityEngine.Object.Destroy(array[i].gameObject);
-                }     
+                }
             }
             if (Vulture.vulture != null && cleaningPlayerId == Vulture.vulture.PlayerId) {
                 Vulture.eatenBodies++;
@@ -549,7 +549,7 @@ namespace TheOtherRoles
 
         public static void shieldedMurderAttempt() {
             if (Medic.shielded == null || Medic.medic == null) return;
-            
+
             bool isShieldedAndShow = Medic.shielded == CachedPlayer.LocalPlayer.PlayerControl && Medic.showAttemptToShielded;
             isShieldedAndShow = isShieldedAndShow && (Medic.meetingAfterShielding || !Medic.showShieldAfterMeeting);  // Dont show attempt, if shield is not shown yet
             bool isMedicAndShow = Medic.medic == CachedPlayer.LocalPlayer.PlayerControl && Medic.showAttemptToMedic;
@@ -576,7 +576,7 @@ namespace TheOtherRoles
                 }
                 return;
             }
-            
+
             Shifter.shiftRole(oldShifter, player);
 
             // Set cooldowns to max for both players
@@ -591,7 +591,7 @@ namespace TheOtherRoles
             }
         }
 
-        public static void morphlingMorph(byte playerId) {  
+        public static void morphlingMorph(byte playerId) {
             PlayerControl target = Helpers.playerById(playerId);
             if (Morphling.morphling == null || target == null) return;
 
@@ -691,7 +691,7 @@ namespace TheOtherRoles
             Sidekick.clearAndReload();
             return;
         }
-        
+
         public static void erasePlayerRoles(byte playerId, bool ignoreModifier = true) {
             PlayerControl player = Helpers.playerById(playerId);
             if (player == null || !player.canBeErased()) return;
@@ -768,7 +768,7 @@ namespace TheOtherRoles
 
         public static void setFutureErased(byte playerId) {
             PlayerControl player = Helpers.playerById(playerId);
-            if (Eraser.futureErased == null) 
+            if (Eraser.futureErased == null)
                 Eraser.futureErased = new List<PlayerControl>();
             if (player != null) {
                 Eraser.futureErased.Add(player);
@@ -855,7 +855,7 @@ namespace TheOtherRoles
         }
 
         public static void placeCamera(byte[] buff) {
-            var referenceCamera = UnityEngine.Object.FindObjectOfType<SurvCamera>(); 
+            var referenceCamera = UnityEngine.Object.FindObjectOfType<SurvCamera>();
             if (referenceCamera == null) return; // Mira HQ
 
             SecurityGuard.remainingScrews -= SecurityGuard.camPrice;
@@ -869,7 +869,7 @@ namespace TheOtherRoles
             camera.transform.position = new Vector3(position.x, position.y, referenceCamera.transform.position.z - 1f);
             camera.CamName = $"Security Camera {SecurityGuard.placedCameras}";
             camera.Offset = new Vector3(0f, 0f, camera.Offset.z);
-            if (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 2 || GameOptionsManager.Instance.currentNormalGameOptions.MapId == 4) camera.transform.localRotation = new Quaternion(0, 0, 1, 1); // Polus and Airship 
+            if (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 2 || GameOptionsManager.Instance.currentNormalGameOptions.MapId == 4) camera.transform.localRotation = new Quaternion(0, 0, 1, 1); // Polus and Airship
 
             if (SubmergedCompatibility.IsSubmerged) {
                 // remove 2d box collider of console, so that no barrier can be created. (irrelevant for now, but who knows... maybe we need it later)
@@ -896,7 +896,7 @@ namespace TheOtherRoles
 
             SecurityGuard.remainingScrews -= SecurityGuard.ventPrice;
             if (CachedPlayer.LocalPlayer.PlayerControl == SecurityGuard.securityGuard) {
-                PowerTools.SpriteAnim animator = vent.GetComponent<PowerTools.SpriteAnim>(); 
+                PowerTools.SpriteAnim animator = vent.GetComponent<PowerTools.SpriteAnim>();
                 animator?.Stop();
                 vent.EnterVentAnim = vent.ExitVentAnim = null;
                 vent.myRend.sprite = animator == null ? SecurityGuard.getStaticVentSealedSprite() : SecurityGuard.getAnimatedVentSealedSprite();
@@ -974,7 +974,7 @@ namespace TheOtherRoles
                     MeetingHud.Instance.ClearVote();
 
                 }
-                if (AmongUsClient.Instance.AmHost) 
+                if (AmongUsClient.Instance.AmHost)
                     MeetingHud.Instance.CheckForEndVoting();
             }
             if (FastDestroyableSingleton<HudManager>.Instance != null && guesser != null)
@@ -1016,7 +1016,7 @@ namespace TheOtherRoles
             PlayerControl target = Helpers.playerById(playerId);
             if (target == null) return;
             Pursuer.blankedList.RemoveAll(x => x.PlayerId == playerId);
-            if (value > 0) Pursuer.blankedList.Add(target);            
+            if (value > 0) Pursuer.blankedList.Add(target);
         }
 
         public static void bloody(byte killerPlayerId, byte bloodyPlayerId) {
@@ -1062,7 +1062,7 @@ namespace TheOtherRoles
             if (target == BountyHunter.bountyHunter) BountyHunter.bountyHunter = thief;
             if (target == Witch.witch) {
                 Witch.witch = thief;
-                if (MeetingHud.Instance) 
+                if (MeetingHud.Instance)
                     if (Witch.witchVoteSavesTargets)  // In a meeting, if the thief guesses the witch, all targets are saved or no target is saved.
                         Witch.futureSpelled = new();
                 else  // If thief kills witch during the round, remove the thief from the list of spelled people, keep the rest
@@ -1080,7 +1080,7 @@ namespace TheOtherRoles
             Thief.clearAndReload();
             Thief.formerThief = thief;  // After clearAndReload, else it would get reset...
         }
-        
+
         public static void setTrap(byte[] buff) {
             if (Trapper.trapper == null) return;
             Trapper.charges -= 1;
@@ -1142,7 +1142,7 @@ namespace TheOtherRoles
             } else {
                 PropHunt.timerRunning = true;
                 PropHunt.blackOutTimer = 0f;
-            }            
+            }
             PropHunt.startTime = DateTime.UtcNow;
             foreach (var pc in PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.Role.IsImpostor)) {
                 pc.MyPhysics.SetBodyType(PlayerBodyTypes.Seeker);
@@ -1210,13 +1210,13 @@ namespace TheOtherRoles
                     break;
                 case GhostInfoTypes.MediumInfo:
                     string mediumInfo = reader.ReadString();
-		             if (Helpers.shouldShowGhostInfo())
-                    	FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(sender, mediumInfo);
+                     if (Helpers.shouldShowGhostInfo())
+                        FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(sender, mediumInfo);
                     break;
                 case GhostInfoTypes.DetectiveOrMedicInfo:
                     string detectiveInfo = reader.ReadString();
                     if (Helpers.shouldShowGhostInfo())
-		    	        FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(sender, detectiveInfo);
+                        FastDestroyableSingleton<HudManager>.Instance.Chat.AddChat(sender, detectiveInfo);
                     break;
                 case GhostInfoTypes.BlankUsed:
                     Pursuer.blankedList.Remove(sender);
@@ -1272,7 +1272,7 @@ namespace TheOtherRoles
                     break;
                 case (byte)CustomRPC.ForceEnd:
                     RPCProcedure.forceEnd();
-                    break; 
+                    break;
                 case (byte)CustomRPC.WorkaroundSetRoles:
                     RPCProcedure.workaroundSetRoles(reader.ReadByte(), reader);
                     break;
@@ -1388,7 +1388,7 @@ namespace TheOtherRoles
                     break;
                 case (byte)CustomRPC.TrackerUsedTracker:
                     RPCProcedure.trackerUsedTracker(reader.ReadByte());
-                    break;               
+                    break;
                 case (byte)CustomRPC.DeputyUsedHandcuffs:
                     RPCProcedure.deputyUsedHandcuffs(reader.ReadByte());
                     break;
@@ -1447,7 +1447,7 @@ namespace TheOtherRoles
                     RPCProcedure.guesserShoot(killerId, dyingTarget, guessedTarget, guessedRoleId);
                     break;
                 case (byte)CustomRPC.LawyerSetTarget:
-                    RPCProcedure.lawyerSetTarget(reader.ReadByte()); 
+                    RPCProcedure.lawyerSetTarget(reader.ReadByte());
                     break;
                 case (byte)CustomRPC.LawyerPromotesToPursuer:
                     RPCProcedure.lawyerPromotesToPursuer();
@@ -1548,4 +1548,4 @@ namespace TheOtherRoles
             }
         }
     }
-} 
+}

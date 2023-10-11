@@ -47,14 +47,14 @@ namespace TheOtherRoles.Patches {
             int numActive = 0;
             int numButtons = __instance.FilterButtons.Count((PassiveButton s) => s.isActiveAndEnabled);
             float edgeDist = 0.6f * (float)numButtons;
-		    for (int i = 0; i< __instance.FilterButtons.Length; i++)
-		    {
-			    PassiveButton passiveButton = __instance.FilterButtons[i];
-			    if (passiveButton.isActiveAndEnabled)
-			    {
-				    passiveButton.transform.SetLocalX(FloatRange.SpreadToEdges(-edgeDist, edgeDist, numActive, numButtons));
-				    numActive++;
-			    }
+            for (int i = 0; i< __instance.FilterButtons.Length; i++)
+            {
+                PassiveButton passiveButton = __instance.FilterButtons[i];
+                if (passiveButton.isActiveAndEnabled)
+                {
+                    passiveButton.transform.SetLocalX(FloatRange.SpreadToEdges(-edgeDist, edgeDist, numActive, numButtons));
+                    numActive++;
+                }
             }
             return false;
         }

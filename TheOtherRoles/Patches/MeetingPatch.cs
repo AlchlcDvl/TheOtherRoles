@@ -75,12 +75,12 @@ namespace TheOtherRoles.Patches {
                         }
                     }
 
-			        Dictionary<byte, int> self = CalculateVotes(__instance);
+                    Dictionary<byte, int> self = CalculateVotes(__instance);
                     bool tie;
-			        KeyValuePair<byte, int> max = self.MaxPair(out tie);
+                    KeyValuePair<byte, int> max = self.MaxPair(out tie);
                     GameData.PlayerInfo exiled = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(v => !tie && v.PlayerId == max.Key && !v.IsDead);
 
-                    // TieBreaker 
+                    // TieBreaker
                     List<GameData.PlayerInfo> potentialExiled = new List<GameData.PlayerInfo>();
                     bool skipIsTie = false;
                     if (self.Count > 0) {
@@ -96,7 +96,7 @@ namespace TheOtherRoles.Patches {
                             if (pair.Value != maxVoteValue || isTiebreakerSkip) continue;
                             if (pair.Key != 253)
                                 potentialExiled.Add(GameData.Instance.AllPlayers.ToArray().FirstOrDefault(x => x.PlayerId == pair.Key));
-                            else 
+                            else
                                 skipIsTie = true;
                         }
                     }
@@ -141,7 +141,7 @@ namespace TheOtherRoles.Patches {
                 SpriteRenderer spriteRenderer = UnityEngine.Object.Instantiate<SpriteRenderer>(__instance.PlayerVotePrefab);
                 int cId = voterPlayer.DefaultOutfit.ColorId;
                 if (!(!GameOptionsManager.Instance.currentNormalGameOptions.AnonymousVotes || (CachedPlayer.LocalPlayer.Data.IsDead && TORMapOptions.ghostsSeeVotes) || Mayor.mayor != null && CachedPlayer.LocalPlayer.PlayerControl == Mayor.mayor && Mayor.canSeeVoteColors && TasksHandler.taskInfo(CachedPlayer.LocalPlayer.Data).Item1 >= Mayor.tasksNeededToSeeVoteColors))
-                    voterPlayer.Object.SetColor(6);                    
+                    voterPlayer.Object.SetColor(6);
                 voterPlayer.Object.SetPlayerMaterialColors(spriteRenderer);
                 spriteRenderer.transform.SetParent(parent);
                 spriteRenderer.transform.localScale = Vector3.zero;
@@ -150,11 +150,11 @@ namespace TheOtherRoles.Patches {
                 voterPlayer.Object.SetColor(cId);
                 return false;
             }
-        } 
+        }
 
         [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.PopulateResults))]
         class MeetingHudPopulateVotesPatch {
-            
+
             static bool Prefix(MeetingHud __instance, Il2CppStructArray<MeetingHud.VoterState> states) {
                 // Swapper swap
 
@@ -200,7 +200,7 @@ namespace TheOtherRoles.Patches {
                         // Major vote, redo this iteration to place a second vote
                         if (Mayor.mayor != null && voterState.VoterId == (sbyte)Mayor.mayor.PlayerId && !mayorFirstVoteDisplayed && Mayor.voteTwice) {
                             mayorFirstVoteDisplayed = true;
-                            j--;    
+                            j--;
                         }
                     }
                 }
@@ -307,7 +307,7 @@ namespace TheOtherRoles.Patches {
                 reset = true;
                 Swapper.playerId1 = Swapper.playerId2 = byte.MaxValue;
             }
-            
+
 
             // Only for the swapper: Reset all the buttons and charges value to their original state.
             if (CachedPlayer.LocalPlayer.PlayerControl != Swapper.swapper) return;
@@ -446,7 +446,7 @@ namespace TheOtherRoles.Patches {
                         if (!(__instance.state == MeetingHud.VoteStates.Voted || __instance.state == MeetingHud.VoteStates.NotVoted) || focusedTarget == null || HandleGuesser.remainingShots(CachedPlayer.LocalPlayer.PlayerId) <= 0 ) return;
 
                         if (!HandleGuesser.killsThroughShield && focusedTarget == Medic.shielded) { // Depending on the options, shooting the shielded player will not allow the guess, notifiy everyone about the kill attempt and close the window
-                            __instance.playerStates.ToList().ForEach(x => x.gameObject.SetActive(true)); 
+                            __instance.playerStates.ToList().ForEach(x => x.gameObject.SetActive(true));
                             UnityEngine.Object.Destroy(container.gameObject);
 
                             MessageWriter murderAttemptWriter = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.ShieldedMurderAttempt, Hazel.SendOption.Reliable, -1);
@@ -522,7 +522,7 @@ namespace TheOtherRoles.Patches {
                     button.OnClick.RemoveAllListeners();
                     int copiedIndex = i;
                     button.OnClick.AddListener((System.Action)(() => swapperOnClick(copiedIndex, __instance)));
-                    
+
                     selections[i] = false;
                     renderers[i] = renderer;
                 }
@@ -578,7 +578,7 @@ namespace TheOtherRoles.Patches {
                 })));
             }
 
-            //Fix visor in Meetings 
+            //Fix visor in Meetings
             /**
             foreach (PlayerVoteArea pva in __instance.playerStates) {
                 if(pva.PlayerIcon != null && pva.PlayerIcon.VisorSlot != null){

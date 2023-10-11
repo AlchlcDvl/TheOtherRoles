@@ -38,12 +38,12 @@ namespace TheOtherRoles.Patches {
                 if (SubmergedCompatibility.getInTransition()) {
                     __result = float.MaxValue;
                     return canUse = couldUse = false;
-                }                
+                }
                 switch (__instance.Id) {
                     case 9:  // Cannot enter vent 9 (Engine Room Exit Only Vent)!
                         if (CachedPlayer.LocalPlayer.PlayerControl.inVent) break;
                         __result = float.MaxValue;
-                        return canUse = couldUse = false;                    
+                        return canUse = couldUse = false;
                     case 14: // Lower Central
                         __result = float.MaxValue;
                         couldUse = roleCouldUse && !pc.IsDead && (@object.CanMove || @object.inVent);
@@ -65,10 +65,10 @@ namespace TheOtherRoles.Patches {
                     canUse = false;
                     couldUse = false;
                     __result = num;
-                    return false; 
+                    return false;
                 } else {
                     // Reduce the usable distance to reduce the risk of gettings stuck while trying to jump into the box if it's placed near objects
-                    usableDistance = 0.4f; 
+                    usableDistance = 0.4f;
                 }
             }
 
@@ -90,7 +90,7 @@ namespace TheOtherRoles.Patches {
     class VentButtonDoClickPatch {
         static  bool Prefix(VentButton __instance) {
             // Manually modifying the VentButton to use Vent.Use again in order to trigger the Vent.Use prefix patch
-		    if (__instance.currentTarget != null && !Deputy.handcuffedKnows.ContainsKey(CachedPlayer.LocalPlayer.PlayerId)) __instance.currentTarget.Use();
+            if (__instance.currentTarget != null && !Deputy.handcuffedKnows.ContainsKey(CachedPlayer.LocalPlayer.PlayerId)) __instance.currentTarget.Use();
             return false;
         }
     }
@@ -113,7 +113,7 @@ namespace TheOtherRoles.Patches {
             if (!canUse) return false; // No need to execute the native method as using is disallowed anyways
 
             bool isEnter = !CachedPlayer.LocalPlayer.PlayerControl.inVent;
-            
+
             if (__instance.name.StartsWith("JackInTheBoxVent_")) {
                 __instance.SetButtons(isEnter && canMoveInVents);
                 MessageWriter writer = AmongUsClient.Instance.StartRpc(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)CustomRPC.UseUncheckedVent, Hazel.SendOption.Reliable);
@@ -179,7 +179,7 @@ namespace TheOtherRoles.Patches {
                     Deputy.setHandcuffedKnows();
                     return false;
                 }
-                
+
                 // Use an unchecked kill command, to allow shorter kill cooldowns etc. without getting kicked
                 MurderAttemptResult res = Helpers.checkMurderAttemptAndKill(CachedPlayer.LocalPlayer.PlayerControl, __instance.currentTarget);
                 // Handle blank kill
@@ -263,8 +263,8 @@ namespace TheOtherRoles.Patches {
                 __instance.ButtonActive = remaining > 0;
                 __instance.ClosedLid.gameObject.SetActive(!__instance.ButtonActive);
                 __instance.OpenLid.gameObject.SetActive(__instance.ButtonActive);
-				return;
-			}
+                return;
+            }
         }
     }
 
@@ -318,7 +318,7 @@ namespace TheOtherRoles.Patches {
                         text.gameObject.SetActive(false);
                         text.transform.localScale = Vector3.one * 0.75f;
                         text.transform.localPosition = new Vector3(-0.75f, -0.23f, 0f);
-                    
+
                     }
                 }
 
@@ -336,7 +336,7 @@ namespace TheOtherRoles.Patches {
 
             static void Postfix(VitalsMinigame __instance) {
                 // Hacker show time since death
-                
+
                 if (Hacker.hacker != null && Hacker.hacker == CachedPlayer.LocalPlayer.PlayerControl && Hacker.hackerTimer > 0) {
                     for (int k = 0; k < __instance.vitals.Length; k++) {
                         VitalsPanel vitalsPanel = __instance.vitals[k];
@@ -377,7 +377,7 @@ namespace TheOtherRoles.Patches {
                 players = new Dictionary<SystemTypes, List<Color>>();
                 bool commsActive = false;
                     foreach (PlayerTask task in CachedPlayer.LocalPlayer.PlayerControl.myTasks.GetFastEnumerator())
-                        if (task.TaskType == TaskTypes.FixComms) commsActive = true;       
+                        if (task.TaskType == TaskTypes.FixComms) commsActive = true;
 
 
                 if (!__instance.isSab && commsActive)
@@ -693,7 +693,7 @@ namespace TheOtherRoles.Patches {
         public static void Postfix(PlayerControl __instance, SpriteRenderer rend) {
             if (!nightVisionIsActive) return;
             foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>()) {
-                foreach (SpriteRenderer component in new SpriteRenderer[2] { deadBody.bodyRenderers.FirstOrDefault(), deadBody.bloodSplatter }) { 
+                foreach (SpriteRenderer component in new SpriteRenderer[2] { deadBody.bodyRenderers.FirstOrDefault(), deadBody.bloodSplatter }) {
                     component.material.SetColor("_BackColor", Palette.ShadowColors[11]);
                     component.material.SetColor("_BodyColor", Palette.PlayerColors[11]);
                 }

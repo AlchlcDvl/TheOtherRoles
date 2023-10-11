@@ -27,7 +27,7 @@ namespace TheOtherRoles.Modules {
                                     if (LobbyLimit != GameOptionsManager.Instance.currentNormalGameOptions.MaxPlayers) {
                                         GameOptionsManager.Instance.currentNormalGameOptions.MaxPlayers = LobbyLimit;
                                         FastDestroyableSingleton<GameStartManager>.Instance.LastPlayerCount = LobbyLimit;
-                                        CachedPlayer.LocalPlayer.PlayerControl.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.currentGameOptions));  // TODO Maybe simpler?? 
+                                        CachedPlayer.LocalPlayer.PlayerControl.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.currentGameOptions));  // TODO Maybe simpler??
                                         __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, $"Lobby Size changed to {LobbyLimit} players");
                                     } else {
                                         __instance.AddChat(CachedPlayer.LocalPlayer.PlayerControl, $"Lobby Size is already {LobbyLimit}");
@@ -78,17 +78,17 @@ namespace TheOtherRoles.Modules {
             }
 
             private static void DisconnectPlayer(InnerNetClient _this, int clientId) {
-			if (!_this.AmHost) {
-				return;
-			}
-			MessageWriter messageWriter = MessageWriter.Get(SendOption.Reliable);
-			messageWriter.StartMessage(4);
-			messageWriter.Write(_this.GameId);
-			messageWriter.WritePacked(clientId);
-			messageWriter.Write((byte)DisconnectReasons.GameFull);
-			messageWriter.EndMessage();
-			_this.SendOrDisconnect(messageWriter);
-			messageWriter.Recycle();
+            if (!_this.AmHost) {
+                return;
+            }
+            MessageWriter messageWriter = MessageWriter.Get(SendOption.Reliable);
+            messageWriter.StartMessage(4);
+            messageWriter.Write(_this.GameId);
+            messageWriter.WritePacked(clientId);
+            messageWriter.Write((byte)DisconnectReasons.GameFull);
+            messageWriter.EndMessage();
+            _this.SendOrDisconnect(messageWriter);
+            messageWriter.Recycle();
             }
         }
     }
